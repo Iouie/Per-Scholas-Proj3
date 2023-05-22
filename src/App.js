@@ -1,24 +1,24 @@
-import "./App.css";
-import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { getUser } from "./utilities/users-service";
 import NavBar from "./components/NavBar/NavBar";
-import NewOrderPage from "./pages/NewOrderPage/NewOrderPage";
+
 import AuthPage from "./pages/AuthPage/AuthPage";
-import OrderHistoryPage from "./pages/OrderHistoryPage/OrderHistoryPage";
+import MainPage from "./pages/MainPage/MainPage";
 
 function App() {
   const [user, setUser] = useState(getUser());
   return (
-    <main className="App">
+    <main>
       {user ? (
         <>
           <NavBar user={user} setUser={setUser} />
           <Routes>
             <Route>
-              <Route path="/orders/new" element={<NewOrderPage />} />
-              <Route path="/orders" element={<OrderHistoryPage />} />
+              <Route path="/dashboard" element={<MainPage />} />
             </Route>
+            {/* redirect to /dashboard if path in address bar hasn't matched a <Route> above */}
+            <Route path="/*" element={<Navigate to="/dashboard" />} />
           </Routes>
         </>
       ) : (

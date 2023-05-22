@@ -5,13 +5,6 @@ export default function LoginForm({ setUser }) {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
-  //   handleChange = (evt) => {
-  //     this.setState({
-  //       [evt.target.name]: evt.target.value,
-  //       error: "",
-  //     });
-  //   };
-
   const handleChange = (evt) => {
     setCredentials({
       ...credentials,

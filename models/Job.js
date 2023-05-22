@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const jobSchema = new Schema(
   {
-    title: { type: String, required: true },
+    position: { type: String, required: true },
     company: { type: String, required: true },
     location: { type: String, required: true },
     date: { type: Date, default: Date.now, required: true },
