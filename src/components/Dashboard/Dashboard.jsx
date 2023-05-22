@@ -1,11 +1,12 @@
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import Modal from "../Modal/Modal";
 
 const Dashboard = () => {
   const columns = [
-    { id: "column-1", title: "Thinking about Applying?" },
-    { id: "column-2", title: "Applied" },
-    { id: "column-3", title: "Rejected" },
-    { id: "column-4", title: "YOU DID IT" },
+    { id: "column-1", title: "Applied" },
+    { id: "column-2", title: "Rejected" },
+    { id: "column-3", title: "Interview" },
+    { id: "column-4", title: "🎉🎉🎉🎉" },
   ];
 
   const onDragEnd = (result) => {
@@ -14,11 +15,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="flex align-center my-5">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-auto content-center">
-          Add Job Application
-        </button>
-      </div>
+      <Modal />
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex justify-evenly">
           {/* Create columns so user can drop jobs on these columns */}
@@ -31,7 +28,7 @@ const Dashboard = () => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  <h3 className="text-center text-5xl font-bold underline text-[#211572]">
+                  <h3 className="text-center text-3xl font-bold underline text-[#211572]">
                     {column.title}
                   </h3>
                   {provided.placeholder}
