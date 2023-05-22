@@ -19,12 +19,19 @@ app.use(express.static(path.join(__dirname, "build")));
 // Be sure to mount before routes
 app.use(require("./config/checkToken"));
 
+// Custom Middleware
+app.use(express.urlencoded({ extended: false }));
+
 app.use("/api/users", require("./routes/api/users"));
+// Protect the API routes below from anonymous users
+const ensuredLoggedIn = require("./config/ensuredLoggedIn");
+app.use("/api/dashboard", ensuredLoggedIn, require("./routes/api/jobs"));
 
 // Put API routes here, before the "catch all" route
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX requests
+
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });

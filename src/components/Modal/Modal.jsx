@@ -1,20 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createJob, updateJob } from "../../utilities/dashboard";
 
-export default function Modal() {
+export default function Modal({ onStateChange }) {
   const [modal, setModal] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [position, setPosition] = useState("");
+  const [company, setCompany] = useState("");
+  const [location, setLocation] = useState("");
+  const [date, setDate] = useState("");
+  const [err, setErr] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "position") {
+      setPosition(value.trim());
+    } else if (name === "company") {
+      setCompany(value.trim());
+    } else if (name === "location") {
+      setLocation(value.trim());
+    } else if (name === "date") {
+      setDate(value.trim());
+    }
+  };
+
+  // get data from mongo schema
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = { position, company, location, date };
+      const job = await createJob(formData);
+      setErr(false);
+
+      closeModal();
+    } catch {
+      setErr(true);
+    }
+  };
+
+  const handleUpdate = async (e) => {};
 
   const openModal = () => {
     setModal(true);
+    onStateChange(true);
   };
   const closeModal = () => {
     setModal(false);
-  };
-
-  const handleModal = (e) => {
-    e.preventDefault();
-
-    closeModal();
+    onStateChange(false);
   };
 
   return (
@@ -28,14 +58,13 @@ export default function Modal() {
         </button>
       </div>
       {modal && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white shadow-lg rounded-lg p-6 bg-[#106ee8] ">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-sky shadow-lg rounded-lg p-6 bg-[#106ee8] ">
           <div className="text-2xl font-bold mb-4 text-center">
-            <p className="p-5">Job Application</p>
+            <p className="p-5">Job Application Tracker</p>
             <form
-              onSubmit={handleModal}
+              onSubmit={handleSubmit}
               className="flex flex-col gap-5"
-              action="/dashboard"
-              method="POST"
+              autoComplete="off"
             >
               {/* Form field to match Job Schema */}
               <input
@@ -43,20 +72,32 @@ export default function Modal() {
                 placeholder="Job Position"
                 className="rounded"
                 name="position"
+                value={position}
+                onChange={handleInputChange}
               />
               <input
                 type="text"
                 placeholder="Company Name"
                 className="rounded"
                 name="company"
+                value={company}
+                onChange={handleInputChange}
               />
               <input
                 type="text"
                 placeholder="Location"
                 className="rounded"
                 name="location"
+                value={location}
+                onChange={handleInputChange}
               />
-              <input type="date" className="rounded" name="date" />
+              <input
+                type="date"
+                className="rounded"
+                name="date"
+                value={date}
+                onChange={handleInputChange}
+              />
 
               <button
                 type="submit"
@@ -70,6 +111,7 @@ export default function Modal() {
               >
                 Cancel
               </button>
+              <h3>{err ? "Error adding Job Application" : ""}</h3>
             </form>
           </div>
         </div>

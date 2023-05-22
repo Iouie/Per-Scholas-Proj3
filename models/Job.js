@@ -6,7 +6,9 @@ const jobSchema = new Schema(
     position: { type: String, required: true },
     company: { type: String, required: true },
     location: { type: String, required: true },
-    date: { type: Date, default: Date.now, required: true },
+    date: { type: Date, required: true },
+    userId: { type: Schema.Types.ObjectId },
+    // status: {type: String, enum: ['Applied', 'Rejected', "Interview"],}
   },
   {
     timestamps: true,

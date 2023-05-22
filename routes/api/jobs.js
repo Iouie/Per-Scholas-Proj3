@@ -3,7 +3,13 @@ const router = express.Router();
 const jobsCtrl = require("../../controllers/api/jobs");
 
 // Index
-router.get("/dashboard", jobsCtrl.index);
+router.get("/", jobsCtrl.read);
 
 // Create
-router.post("/dashboard", jobsCtrl.create);
+router.post("/", jobsCtrl.create);
+
+// Update
+router.put("/", jobsCtrl.update);
+// Delete
+
+module.exports = router;
