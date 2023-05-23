@@ -9,7 +9,7 @@ router.get("/", jobsCtrl.read);
 router.post("/", jobsCtrl.create);
 
 // Update
-router.put("/", jobsCtrl.update);
+router.put("/:id", jobsCtrl.update);
 // Delete
 
 module.exports = router;

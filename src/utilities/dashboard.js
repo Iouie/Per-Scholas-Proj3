@@ -14,6 +14,6 @@ export function createJob(data) {
 
 // Update
 
-export function updateJob(data) {
-  return sendRequest(`${BASE_URL}`, "PUT", data);
+export function updateJob(id, data) {
+  return sendRequest(`${BASE_URL}/${id}`, "PUT", data);
 }

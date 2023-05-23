@@ -8,7 +8,6 @@ import deletePic from "../../assets/delete.png";
 
 const Dashboard = () => {
   const [data, setData] = useState([]); // grab data from getJobs read request
-  const [form, setForm] = useState({});
   const [columns, setColumns] = useState({
     column1: {
       id: "column1",
@@ -28,13 +27,11 @@ const Dashboard = () => {
     },
   });
   const [childState, setChildState] = useState(true);
+  const [job, setJob] = useState(null);
+  const [modal, setModal] = useState(false);
 
   const handleChildStateChange = (newState) => {
     setChildState(newState);
-  };
-
-  const handleForm = (formData) => {
-    setForm(formData);
   };
 
   const handleDragEnd = (result) => {
@@ -80,18 +77,29 @@ const Dashboard = () => {
     });
   };
 
-  const handleEdit = async (jobId) => {
-    console.log(form);
+  const handleEdit = async (job) => {
+    if (!job.position || !job.company || !job.date) {
+      return;
+    }
+
+    // Additional validation for the date field
+    const isValidDate = moment.utc(job.date).isValid();
+    if (!isValidDate) {
+      return;
+    }
     try {
-      const jobData = data.find((item) => item._id === jobId);
-      jobData.position = "Edited Position";
-      await updateJob({ _id: jobData._id, position: "Hi" });
-      // console.log(jobData);
+      await updateJob(job._id, {
+        position: job.position,
+        company: job.company,
+        location: job.location,
+        date: job.date,
+      });
     } catch (err) {
       console.error(err);
     }
   };
 
+  //     [childState, modal],
   useEffect(() => {
     const fetchData = async () => {
       const jobData = await getJobs();
@@ -99,11 +107,21 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [childState]);
+  }, [childState, modal]);
 
   return (
     <>
-      <Modal onStateChange={handleChildStateChange} onHandleForm={handleForm} />
+      {/* Modal for adding job application */}
+      <Modal
+        onStateChange={handleChildStateChange}
+        job={job}
+        modal={modal}
+        setModal={setModal}
+        handleEdit={handleEdit}
+        setJob={setJob}
+        data={data}
+      />
+
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex justify-evenly">
           {/* COL 1 */}
@@ -144,13 +162,19 @@ const Dashboard = () => {
                             </span>
                             <span>
                               <b> Date Applied:</b>{" "}
-                              {moment(item.date).format("MM-DD-YY")}{" "}
+                              {moment.utc(item.date).format("MM-DD-YY")}{" "}
                             </span>
                           </div>
                           <div className="flex justify-center items-center w-2/5">
                             <button
                               className="h-50 w-50"
-                              onClick={() => handleEdit(item._id)}
+                              onClick={() => {
+                                const jobData = data.find(
+                                  (singItem) => item._id === singItem._id
+                                );
+                                setJob(jobData);
+                                setModal(true);
+                              }}
                             >
                               <img src={editPic} alt="edit"></img>
                             </button>

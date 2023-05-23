@@ -1,31 +1,36 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { createJob } from "../../utilities/dashboard";
-import { useEffect } from "react";
+import moment from "moment";
 
-export default function Modal({ onStateChange, onHandleForm }) {
-  const [modal, setModal] = useState(false);
-  const [position, setPosition] = useState("");
-  const [company, setCompany] = useState("");
-  const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
+export default function Modal({
+  onStateChange,
+  job,
+  modal,
+  setModal,
+  handleEdit,
+  setJob,
+  data,
+}) {
+  const [position, setPosition] = useState(job ? job.position : "");
+  const [company, setCompany] = useState(job ? job.company : "");
+  const [location, setLocation] = useState(job ? job.location : "");
+  const [date, setDate] = useState(
+    job ? moment.utc(job.date).format("YYYY-MM-DD") : ""
+  );
   const [err, setErr] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "position") {
-      setPosition(value.trim());
+      setPosition(value);
     } else if (name === "company") {
-      setCompany(value.trim());
+      setCompany(value);
     } else if (name === "location") {
-      setLocation(value.trim());
+      setLocation(value);
     } else if (name === "date") {
-      setDate(value.trim());
+      setDate(value);
     }
   };
-
-  useEffect(() => {
-    onHandleForm({ position, company, location, date, modal });
-  }, [!modal]);
 
   // get data from mongo schema
   const handleSubmit = async (e) => {
@@ -33,31 +38,47 @@ export default function Modal({ onStateChange, onHandleForm }) {
     try {
       const formData = { position, company, location, date };
       const job = await createJob(formData);
-      setErr(false);
-      console.log(job);
       closeModal();
 
       // Call the onFormSubmit callback with the form data
-    } catch {
+    } catch (err) {
       setErr(true);
     }
+  };
+
+  const removeTitle = () => {
+    openModal();
+    setPosition("");
+    setCompany("");
+    setLocation("");
+    setDate("");
   };
 
   const openModal = () => {
     setModal(true);
     onStateChange(true);
+    setErr(false);
   };
   const closeModal = () => {
+    setErr(false);
     setModal(false);
     onStateChange(false);
+    setJob(null);
   };
+
+  useEffect(() => {
+    setPosition(job ? job.position : "");
+    setCompany(job ? job.company : "");
+    setLocation(job ? job.location : "");
+    setDate(job ? moment.utc(job.date).format("YYYY-MM-DD") : "");
+  }, [job]);
 
   return (
     <>
       <div className="flex align-center my-5">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-auto content-center"
-          onClick={openModal}
+          onClick={removeTitle}
         >
           Add Job Application
         </button>
@@ -72,51 +93,113 @@ export default function Modal({ onStateChange, onHandleForm }) {
               autoComplete="off"
             >
               {/* Form field to match Job Schema */}
-              <input
-                type="text"
-                placeholder="Job Position"
-                className="rounded"
-                name="position"
-                value={position}
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                placeholder="Company Name"
-                className="rounded"
-                name="company"
-                value={company}
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                placeholder="Location"
-                className="rounded"
-                name="location"
-                value={location}
-                onChange={handleInputChange}
-              />
-              <input
-                type="date"
-                className="rounded"
-                name="date"
-                value={date}
-                onChange={handleInputChange}
-              />
+              {job ? (
+                <input
+                  type="text"
+                  placeholder="Job Position"
+                  className="rounded"
+                  name="position"
+                  defaultValue={job.position}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                <input
+                  type="text"
+                  placeholder="Job Position"
+                  className="rounded"
+                  name="position"
+                  value={position}
+                  onChange={handleInputChange}
+                />
+              )}
+              {job ? (
+                <input
+                  type="text"
+                  placeholder="Company Name"
+                  className="rounded"
+                  name="company"
+                  defaultValue={job.company}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                <input
+                  type="text"
+                  placeholder="Company Name"
+                  className="rounded"
+                  name="company"
+                  value={company}
+                  onChange={handleInputChange}
+                />
+              )}
+              {job ? (
+                <input
+                  type="text"
+                  placeholder="Location"
+                  className="rounded"
+                  name="location"
+                  defaultValue={job.location}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                <input
+                  type="text"
+                  placeholder="Location"
+                  className="rounded"
+                  name="location"
+                  value={location}
+                  onChange={handleInputChange}
+                />
+              )}
 
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-auto content-center"
-              >
-                Submit
-              </button>
+              {job ? (
+                <input
+                  type="date"
+                  className="rounded"
+                  name="date"
+                  defaultValue={moment.utc(job.date).format("YYYY-MM-DD")}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                <input
+                  type="date"
+                  className="rounded"
+                  name="date"
+                  value={moment.utc(date).format("YYYY-MM-DD")}
+                  onChange={handleInputChange}
+                />
+              )}
+              {job ? (
+                <button
+                  type="button"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-auto content-center"
+                  onClick={() => {
+                    handleEdit({
+                      _id: job._id,
+                      position,
+                      company,
+                      location,
+                      date,
+                    });
+                    closeModal();
+                  }}
+                >
+                  Edit
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-auto content-center"
+                >
+                  Submit
+                </button>
+              )}
               <button
                 onClick={closeModal}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-auto content-center"
               >
                 Cancel
               </button>
-              <h3>{err ? "Error adding Job Application" : ""}</h3>
+              <h3>{err ? "Error getting Job Application" : ""}</h3>
             </form>
           </div>
         </div>
