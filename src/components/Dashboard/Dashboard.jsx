@@ -1,39 +1,40 @@
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Modal from "../Modal/Modal";
-import { getJobs } from "../../utilities/dashboard";
+import { getJobs, updateJob } from "../../utilities/dashboard";
 import moment from "moment/moment";
 import editPic from "../../assets/edit.png";
 import deletePic from "../../assets/delete.png";
 
 const Dashboard = () => {
   const [data, setData] = useState([]); // grab data from getJobs read request
+  const [form, setForm] = useState({});
   const [columns, setColumns] = useState({
     column1: {
       id: "column1",
       title: "Applied",
-      items: [],
     },
     column2: {
       id: "column2",
       title: "Rejected",
-      items: [],
     },
     column3: {
       id: "column3",
       title: "Interviewing",
-      items: [],
     },
     column4: {
       id: "column4",
       title: "🎉🎉🎉🎉",
-      items: [],
     },
   });
   const [childState, setChildState] = useState(true);
 
   const handleChildStateChange = (newState) => {
     setChildState(newState);
+  };
+
+  const handleForm = (formData) => {
+    setForm(formData);
   };
 
   const handleDragEnd = (result) => {
@@ -79,6 +80,18 @@ const Dashboard = () => {
     });
   };
 
+  const handleEdit = async (jobId) => {
+    console.log(form);
+    try {
+      const jobData = data.find((item) => item._id === jobId);
+      jobData.position = "Edited Position";
+      await updateJob({ _id: jobData._id, position: "Hi" });
+      // console.log(jobData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const jobData = await getJobs();
@@ -90,7 +103,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Modal onStateChange={handleChildStateChange} />
+      <Modal onStateChange={handleChildStateChange} onHandleForm={handleForm} />
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex justify-evenly">
           {/* COL 1 */}
@@ -114,32 +127,37 @@ const Dashboard = () => {
                     {(provided) => (
                       <div className="flex border-double border-4 border-[#00008B] rounded-lg justify-evenly ">
                         <div
-                          className="flex justify-start w-3/4 text-xl flex-col"
+                          className="flex text-xl"
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <span>
-                            <b>Position:</b> {item.position}{" "}
-                          </span>
-                          <span>
-                            <b>Company:</b> {item.company}{" "}
-                          </span>
-                          <span>
-                            <b>Location:</b> {item.location}{" "}
-                          </span>
-                          <span>
-                            <b> Date Applied:</b>{" "}
-                            {moment(item.date).format("MM-DD-YYYY")}{" "}
-                          </span>
-                        </div>
-                        <div className="flex justify-center items-center w-2/4">
-                          <button className="h-50 w-50">
-                            <img src={editPic} alt="edit"></img>
-                          </button>
-                          <button>
-                            <img src={deletePic} alt="delete"></img>
-                          </button>
+                          <div className="flex justify-start flex-col w-3/4">
+                            <span>
+                              <b>Position:</b> {item.position}{" "}
+                            </span>
+                            <span>
+                              <b>Company:</b> {item.company}{" "}
+                            </span>
+                            <span>
+                              <b>Location:</b> {item.location}{" "}
+                            </span>
+                            <span>
+                              <b> Date Applied:</b>{" "}
+                              {moment(item.date).format("MM-DD-YY")}{" "}
+                            </span>
+                          </div>
+                          <div className="flex justify-center items-center w-2/5">
+                            <button
+                              className="h-50 w-50"
+                              onClick={() => handleEdit(item._id)}
+                            >
+                              <img src={editPic} alt="edit"></img>
+                            </button>
+                            <button>
+                              <img src={deletePic} alt="delete"></img>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}

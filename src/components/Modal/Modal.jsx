@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { createJob, updateJob } from "../../utilities/dashboard";
+import { useState, useRef } from "react";
+import { createJob } from "../../utilities/dashboard";
+import { useEffect } from "react";
 
-export default function Modal({ onStateChange }) {
+export default function Modal({ onStateChange, onHandleForm }) {
   const [modal, setModal] = useState(false);
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
@@ -22,6 +23,10 @@ export default function Modal({ onStateChange }) {
     }
   };
 
+  useEffect(() => {
+    onHandleForm({ position, company, location, date, modal });
+  }, [!modal]);
+
   // get data from mongo schema
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,14 +34,14 @@ export default function Modal({ onStateChange }) {
       const formData = { position, company, location, date };
       const job = await createJob(formData);
       setErr(false);
-
+      console.log(job);
       closeModal();
+
+      // Call the onFormSubmit callback with the form data
     } catch {
       setErr(true);
     }
   };
-
-  const handleUpdate = async (e) => {};
 
   const openModal = () => {
     setModal(true);
