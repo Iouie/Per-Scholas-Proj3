@@ -16,7 +16,7 @@ Access my site at [https://job-application-tracker-vmpa.onrender.com/](https://j
 - [Future](#future)
 
 ## About The App
-[JOB APPLICATION TRACKER] is a full stack applications that utilizes CRUD for job applications. Users are able to create an account, create, read, update, and delete job applications as well dragging those components to other columns.
+[JOB APPLICATION TRACKER] is a full stack application that utilizes CRUD for job applications. Users are able to create an account, create, read, update, and delete job applications as well dragging those components to other columns.
 
 ## Screenshots
 
