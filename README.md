@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# JOB APPLICATION TRACKER
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Demo link:
+Access my site at [https://job-application-tracker-vmpa.onrender.com/](https://job-application-tracker-vmpa.onrender.com/)
 
-In the project directory, you can run:
+## Table of Content:
 
-### `npm start`
+- [About The App](#about-the-app)
+- [Screenshots](#screenshots)
+- [Technologies](#technologies)
+- [Setup](#setup)
+- [Approach](#approach)
+- [Unsolved Problems](#unsolved)
+- [Future](#future)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## About The App
+[JOB APPLICATION TRACKER] is a full stack applications that utilizes CRUD for job applications. Users are able to create an account, create, read, update, and delete job applications as well dragging those components to other columns.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Screenshots
 
-### `npm test`
+![Screenshot 1](https://i.imgur.com/TaLCygU.png)
+![Screenshot 2](https://i.imgur.com/QD3pvEx.png)
+![Screenshot 3](https://i.imgur.com/q0diR4e.png)
+![Screenshot 4](https://i.imgur.com/5WV9QwY.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Technologies Used
+`MongoDB`, `Express`, `React`, `Node`, `JavasScript`, `Tailwind CSS`, `react-beautiful-dnd`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setup
+- download or clone the repository
+- run `npm install`
+- ...
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Approach
+I had a hard time understanding full-stack so I created something similar to a To-Do list so I made a Job Application Tracker. I also wanted to incorporate a drag and drop function.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+**Pages**  
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+AuthPage => Holds SignUp and Login Pages
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+MainPage => Holds all the MERN stuff like creating job applications, drag and drop functionality, and dashboard/modal
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Components**  
 
-## Learn More
+Dashboard => Holds drag and drop functions and all job application data
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+LoginForm => Holds the Login Page
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Modal => Holds a modal that lets user enter and edit job applications
 
-### Code Splitting
+NavBar => Welcome users and Dashboard as well as ability to logout
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+SignUpForm => Holds Sign Up Page
 
-### Analyzing the Bundle Size
+## Unsolved Problems
+Whenever I drag a draggable component to any other column other than column 1(Applied) and press on Add Job Application button, it duplicates all draggable divs not in column 1 then when I try to drag the div, it breaks.
+I'm having trouble incorporating localStorage that keeps certain draggable divs onto whatever column they place.
+When I drag a draggable component on top or below another component and press edit, it still gets the initial data.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Future
+I want to add a theme and add a dark mode so it's easier for my eyes.
+I also want to add achievements like Leetcode based on how many job applications a user posted.
