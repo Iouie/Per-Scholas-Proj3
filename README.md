@@ -35,7 +35,7 @@ Access my site at [https://job-application-tracker-vmpa.onrender.com/](https://j
 - ...
 
 ## Started
-Trello Link -(https://trello.com/b/M8okzCvS/mern-project)
+Trello Link - https://trello.com/b/M8okzCvS/mern-project
 
 ## Approach
 I had a hard time understanding full-stack so I created something similar to a To-Do list so I made a Job Application Tracker. I also wanted to incorporate a drag and drop function.
