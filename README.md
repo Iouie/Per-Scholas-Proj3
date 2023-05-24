@@ -10,6 +10,7 @@ Access my site at [https://job-application-tracker-vmpa.onrender.com/](https://j
 - [Screenshots](#screenshots)
 - [Technologies](#technologies)
 - [Setup](#setup)
+- [Started](#started)
 - [Approach](#approach)
 - [Unsolved Problems](#unsolved)
 - [Future](#future)
@@ -32,6 +33,9 @@ Access my site at [https://job-application-tracker-vmpa.onrender.com/](https://j
 - download or clone the repository
 - run `npm install`
 - ...
+
+## Started
+Trello Link -(https://trello.com/b/M8okzCvS/mern-project)
 
 ## Approach
 I had a hard time understanding full-stack so I created something similar to a To-Do list so I made a Job Application Tracker. I also wanted to incorporate a drag and drop function.
