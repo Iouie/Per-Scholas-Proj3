@@ -97,6 +97,9 @@ const Dashboard = () => {
 
     // Update the state with the new columns
     setColumns(newColumns);
+
+    // Save updated column data to local storage
+    localStorage.setItem("columns", JSON.stringify(newColumns));
   };
   // handle editing mongoose data
   const handleEdit = async (job) => {
@@ -149,6 +152,11 @@ const Dashboard = () => {
     setdelJob(false);
     fetchData();
   }, [childState, modal, delJob]);
+
+  // Save data to local storage whenever columns change
+  useEffect(() => {
+    localStorage.setItem("columns", JSON.stringify(columns));
+  }, [columns]);
 
   return (
     <>

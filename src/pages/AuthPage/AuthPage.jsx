@@ -1,6 +1,6 @@
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import LoginForm from "../../components/LoginForm/LoginForm";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 export default function AuthPage({ setUser }) {
   return (
@@ -12,6 +12,7 @@ export default function AuthPage({ setUser }) {
         <Route>
           <Route path="/login" element={<LoginForm setUser={setUser} />} />
         </Route>
+        <Route path="/*" element={<Navigate to="/login" />} />
       </Routes>
     </>
   );

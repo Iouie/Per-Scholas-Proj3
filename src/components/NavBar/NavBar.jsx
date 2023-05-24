@@ -7,7 +7,7 @@ function NavBar(props) {
     props.setUser(null);
   }
   return (
-    <nav className="text-center text-2xl">
+    <nav className="text-center text-2xl ">
       <span>Hey {props.user.name}</span> &nbsp; | &nbsp;
       <Link to="/dashboard"> Dashboard</Link>
       &nbsp; | &nbsp;
