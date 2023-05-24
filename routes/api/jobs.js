@@ -10,6 +10,8 @@ router.post("/", jobsCtrl.create);
 
 // Update
 router.put("/:id", jobsCtrl.update);
+
 // Delete
+router.delete("/:id", jobsCtrl.deleteJob);
 
 module.exports = router;

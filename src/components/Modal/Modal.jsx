@@ -9,7 +9,7 @@ export default function Modal({
   setModal,
   handleEdit,
   setJob,
-  data,
+  setData,
 }) {
   const [position, setPosition] = useState(job ? job.position : "");
   const [company, setCompany] = useState(job ? job.company : "");
@@ -40,6 +40,8 @@ export default function Modal({
       const job = await createJob(formData);
       closeModal();
 
+      // Update the data state with the new job application
+      setData((prevData) => [...prevData, job]);
       // Call the onFormSubmit callback with the form data
     } catch (err) {
       setErr(true);

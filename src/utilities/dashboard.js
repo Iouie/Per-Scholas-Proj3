@@ -17,3 +17,9 @@ export function createJob(data) {
 export function updateJob(id, data) {
   return sendRequest(`${BASE_URL}/${id}`, "PUT", data);
 }
+
+// Delete
+
+export function deleteJob(id) {
+  return sendRequest(`${BASE_URL}/${id}`, "DELETE");
+}

@@ -32,7 +32,8 @@ const update = async (req, res) => {
 
 const deleteJob = async (req, res) => {
   try {
-    const deleteJob = await Job.findByIdAndDelete();
+    const deleteJob = await Job.findByIdAndDelete(req.params.id);
+    res.status(200).json(deleteJob);
   } catch (e) {
     res.status(400).json({ msg: e.message });
   }
