@@ -11,22 +11,18 @@ const Dashboard = () => {
   const [columns, setColumns] = useState({
     column1: {
       id: "column1",
-      title: "Applied",
       items: [],
     },
     column2: {
       id: "column2",
-      title: "Rejected",
       items: [],
     },
     column3: {
       id: "column3",
-      title: "Interviewing",
       items: [],
     },
     column4: {
       id: "column4",
-      title: "🎉🎉🎉🎉",
       items: [],
     },
   });
@@ -97,9 +93,6 @@ const Dashboard = () => {
 
     // Update the state with the new columns
     setColumns(newColumns);
-
-    // Save updated column data to local storage
-    localStorage.setItem("columns", JSON.stringify(newColumns));
   };
   // handle editing mongoose data
   const handleEdit = async (job) => {
@@ -141,22 +134,31 @@ const Dashboard = () => {
     const fetchData = async () => {
       const jobData = await getJobs();
       setData(jobData);
-      setColumns((prevColumns) => ({
-        ...prevColumns,
-        column1: {
-          ...prevColumns.column1,
-          items: jobData,
-        },
-      }));
+      console.log(jobData);
+
+      // setColumns((prevColumns) => ({
+      //   ...prevColumns,
+      //   column1: {
+      //     ...prevColumns.column1,
+      //     items: jobData,
+      //   },
+      //   column2: {
+      //     ...prevColumns.column2,
+      //     items: [], // Populate with appropriate data for column2
+      //   },
+      //   column3: {
+      //     ...prevColumns.column3,
+      //     items: [], // Populate with appropriate data for column3
+      //   },
+      //   column4: {
+      //     ...prevColumns.column4,
+      //     items: [], // Populate with appropriate data for column4
+      //   },
+      // }));
     };
     setdelJob(false);
     fetchData();
   }, [childState, modal, delJob]);
-
-  // Save data to local storage whenever columns change
-  useEffect(() => {
-    localStorage.setItem("columns", JSON.stringify(columns));
-  }, [columns]);
 
   return (
     <>
@@ -170,6 +172,7 @@ const Dashboard = () => {
         handleDelete={handleDelete}
         setJob={setJob}
         data={data}
+        columns={columns}
         setData={setData}
       />
 
@@ -183,7 +186,7 @@ const Dashboard = () => {
                 className="my-5 border-double border-4 border-sky-400 rounded-lg p-6 w-1/4 min-h-fit"
               >
                 <h3 className="text-center text-3xl font-bold underline text-[#211572]">
-                  {columns.column1.title}
+                  Applied
                 </h3>
                 {columns.column1.items.map((item, index) => (
                   <Draggable
@@ -254,7 +257,7 @@ const Dashboard = () => {
                 className="my-5 border-double border-4 border-red-500 rounded-lg p-6 w-1/4 min-h-fit"
               >
                 <h3 className="text-center text-3xl font-bold underline text-[#211572]">
-                  {columns.column2.title}
+                  Rejected
                 </h3>
                 {columns.column2.items.map((item, index) => (
                   <Draggable
@@ -292,7 +295,6 @@ const Dashboard = () => {
               </div>
             )}
           </Droppable>
-
           <Droppable droppableId={columns.column3.id}>
             {(provided) => (
               <div
@@ -301,7 +303,7 @@ const Dashboard = () => {
                 className="my-5 border-double border-4 border-[#FFA500] rounded-lg p-6 w-1/4 min-h-fit"
               >
                 <h3 className="text-center text-3xl font-bold underline text-[#211572]">
-                  {columns.column3.title}
+                  Interviewing
                 </h3>
                 {columns.column3.items.map((item, index) => (
                   <Draggable
@@ -347,7 +349,7 @@ const Dashboard = () => {
                 className="my-5 border-double border-4 border-green-400 rounded-lg p-6 w-1/4 min-h-fit"
               >
                 <h3 className="text-center text-3xl font-bold underline text-[#211572]">
-                  {columns.column4.title}
+                  🎉🎉🎉🎉
                 </h3>
                 {columns.column4.items.map((item, index) => (
                   <Draggable
