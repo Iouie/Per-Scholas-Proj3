@@ -93,6 +93,8 @@ const Dashboard = () => {
 
     // Update the state with the new columns
     setColumns(newColumns);
+
+    localStorage.setItem("dashboardColumns", JSON.stringify(newColumns));
   };
   // handle editing mongoose data
   const handleEdit = async (job) => {
@@ -130,35 +132,41 @@ const Dashboard = () => {
   };
 
   // load data on mount
+
   useEffect(() => {
     const fetchData = async () => {
       const jobData = await getJobs();
       setData(jobData);
-      console.log(jobData);
 
-      // setColumns((prevColumns) => ({
-      //   ...prevColumns,
-      //   column1: {
-      //     ...prevColumns.column1,
-      //     items: jobData,
-      //   },
-      //   column2: {
-      //     ...prevColumns.column2,
-      //     items: [], // Populate with appropriate data for column2
-      //   },
-      //   column3: {
-      //     ...prevColumns.column3,
-      //     items: [], // Populate with appropriate data for column3
-      //   },
-      //   column4: {
-      //     ...prevColumns.column4,
-      //     items: [], // Populate with appropriate data for column4
-      //   },
-      // }));
+      let savedColumns = localStorage.getItem("dashboardColumns");
+      if (savedColumns) {
+        savedColumns = JSON.parse(savedColumns);
+        setColumns(savedColumns);
+      } else {
+        setColumns((prevColumns) => ({
+          ...prevColumns,
+          column1: {
+            ...prevColumns.column1,
+            items: jobData,
+          },
+          column2: {
+            ...prevColumns.column2,
+            items: [], // Populate with appropriate data for column2
+          },
+          column3: {
+            ...prevColumns.column3,
+            items: [], // Populate with appropriate data for column3
+          },
+          column4: {
+            ...prevColumns.column4,
+            items: [], // Populate with appropriate data for column4
+          },
+        }));
+      }
     };
     setdelJob(false);
     fetchData();
-  }, [childState, modal, delJob]);
+  }, [delJob, modal, childState]);
 
   return (
     <>
