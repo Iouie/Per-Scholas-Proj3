@@ -61,10 +61,9 @@ NavBar => Welcome users and Dashboard as well as ability to logout
 SignUpForm => Holds Sign Up Page
 
 ## Unsolved Problems
-Whenever I drag a draggable component to any other column other than column 1(Applied) and press on Add Job Application button, it duplicates all draggable divs not in column 1 then when I try to drag the div, it breaks.
-I'm having trouble incorporating localStorage that keeps certain draggable divs onto whatever column they place.
-When I drag a draggable component on top or below another component and press edit, it still gets the initial data.
+FIXED ALL ERRORS
 
 ## Future
 I want to add a theme and add a dark mode so it's easier for my eyes.
+I want to add a sort function for my jobs
 I also want to add achievements like Leetcode based on how many job applications a user posted.
