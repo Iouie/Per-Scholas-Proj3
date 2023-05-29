@@ -116,6 +116,20 @@ const Dashboard = () => {
         location: job.location,
         date: job.date,
       });
+
+      // Update the job in the state
+      const updatedColumns = { ...columns };
+      for (const columnId in updatedColumns) {
+        const column = updatedColumns[columnId];
+        const updatedItems = column.items.map((item) => {
+          if (item._id === job._id) {
+            return { ...item, ...job };
+          }
+          return item;
+        });
+        column.items = updatedItems;
+      }
+      setColumns(updatedColumns);
     } catch (err) {
       console.error(err);
     }
@@ -126,6 +140,15 @@ const Dashboard = () => {
     try {
       await deleteJob(job._id);
       setdelJob(true);
+
+      // Remove the job from the state
+      const updatedColumns = { ...columns };
+      for (const columnId in updatedColumns) {
+        const column = updatedColumns[columnId];
+        column.items = column.items.filter((item) => item._id !== job._id);
+      }
+
+      setColumns(updatedColumns);
     } catch (err) {
       console.error(err);
     }
@@ -164,9 +187,8 @@ const Dashboard = () => {
         }));
       }
     };
-    setdelJob(false);
     fetchData();
-  }, [delJob, modal, childState]);
+  }, []);
 
   return (
     <>
@@ -182,6 +204,7 @@ const Dashboard = () => {
         data={data}
         columns={columns}
         setData={setData}
+        setColumns={setColumns}
       />
 
       <DragDropContext onDragEnd={handleDragEnd}>

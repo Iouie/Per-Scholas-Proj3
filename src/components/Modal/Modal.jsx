@@ -10,6 +10,9 @@ export default function Modal({
   handleEdit,
   setJob,
   setData,
+  data,
+  columns,
+  setColumns,
 }) {
   const [position, setPosition] = useState(job ? job.position : "");
   const [company, setCompany] = useState(job ? job.company : "");
@@ -42,6 +45,15 @@ export default function Modal({
 
       // Update the data state with the new job application
       setData((prevData) => [...prevData, job]);
+
+      // add that job onto column1
+      setColumns((prevColumns) => ({
+        ...prevColumns,
+        column1: {
+          ...prevColumns.column1,
+          items: [...prevColumns.column1.items, job],
+        },
+      }));
       // Call the onFormSubmit callback with the form data
     } catch (err) {
       setErr(true);
@@ -69,10 +81,12 @@ export default function Modal({
   };
 
   useEffect(() => {
-    setPosition(job ? job.position : "");
-    setCompany(job ? job.company : "");
-    setLocation(job ? job.location : "");
-    setDate(job ? moment.utc(job.date).format("YYYY-MM-DD") : "");
+    if (job) {
+      setPosition(job ? job.position : "");
+      setCompany(job ? job.company : "");
+      setLocation(job ? job.location : "");
+      setDate(job ? moment.utc(job.date).format("YYYY-MM-DD") : "");
+    }
   }, [job]);
 
   return (
